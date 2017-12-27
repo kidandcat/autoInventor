@@ -2,7 +2,7 @@ import * as React from "react";
 import { shallow } from "enzyme";
 
 import { Clock } from "./clock.component";
-import { configureStore } from "../../State/store";
+import { configureStore } from "../../state/store";
 
 const store = configureStore({});
 

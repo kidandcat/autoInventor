@@ -1,8 +1,8 @@
 import * as React from "react";
-import { selectTime } from "../../State/selectors";
-import { selectColor } from "../../State/selectors";
+import { selectTime } from "../../state/selectors";
+import { selectColor } from "../../state/selectors";
 import { createStructuredSelector } from "reselect";
-import { tick } from "../../State/actions/time";
+import { tick } from "../../state/actions/time";
 import { connect } from "react-redux";
 
 export type ClockProps = {
@@ -21,7 +21,7 @@ const mapDispatchToProps = {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-export class Clock extends React.Component<ClockProps> {
+export class Clock extends React.Component<ClockProps, {}> {
   componentDidMount() {
     this.props.tick();
   }

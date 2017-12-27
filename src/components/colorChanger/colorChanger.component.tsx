@@ -1,8 +1,8 @@
 import * as React from "react";
 import { createStructuredSelector } from "reselect";
-import { changeColor, changeTempColor } from "../../State/actions/color";
+import { changeColor, changeTempColor } from "../../state/actions/color";
 import { connect } from "react-redux";
-import { selectTempColor } from "../../State/selectors";
+import { selectTempColor } from "../../state/selectors";
 
 export type ColorChangerProps = {
   changeColor: Function;

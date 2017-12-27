@@ -1,5 +1,6 @@
 import { ColorActions } from "../actions/color";
 import { Reducer, AnyAction } from "redux";
+import { run } from "../../tools/composer";
 
 export type ColorState = {
   color: string;
@@ -17,6 +18,16 @@ export const colorReducer: Reducer<ColorState> = (
 ) => {
   switch (action.type) {
     case ColorActions.changeColor:
+      run("TestName", [
+        {
+          action: "jira_login",
+          params: {
+            user: "jairo.viciana",
+            pass: "3corazoness.",
+            url: "jira.rochedevops.accentureanalytics.com"
+          }
+        }
+      ]);
       return {
         ...state,
         color: action.payload
