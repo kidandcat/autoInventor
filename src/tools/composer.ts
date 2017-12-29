@@ -11,6 +11,8 @@ export type Task = {
 };
 
 export async function run(taskName: string, actions: Task[]) {
+  console.log("TaskName", taskName);
+  console.log("actions", actions);
   const tasks: Array<any> = [];
   const dependencies: Array<any> = [];
   actions.forEach(a => {

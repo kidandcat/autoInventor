@@ -1,4 +1,4 @@
-type Params = {
+export type Params = {
   ticketID: string;
   jiraHost: string;
 };

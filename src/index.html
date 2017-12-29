@@ -3,6 +3,8 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+  <script src="//rubaxa.github.io/Sortable/Sortable.js"></script>
 </head>
 
 <body style="overflow: hidden; background-color: rgba(0,0,0,0); margin: 0">
@@ -15,13 +17,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import { App } from "./components/app";
-import { Provider } from "react-redux";
-import { configureStore } from "./state/store";
-
-const store = configureStore({});
 
 let render = () => {
-  ReactDOM.render(<AppContainer><Provider store={store}><App /></Provider></AppContainer>, document.getElementById('App'));
+  ReactDOM.render(<AppContainer><App /></AppContainer>, document.getElementById('App'));
 }
 
 render();
