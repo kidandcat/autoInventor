@@ -9,13 +9,11 @@ export const data = {
       "https://${params.jiraHost}/browse/${params.ticketID}"
     );
   
-    return await page.evaluate(() => {
+    await page.evaluate(() => {
       return {
-        shortDescription: (<HTMLElement>document.querySelector("#summary-val"))
-          .innerText,
-        longDescription: (<HTMLElement>document.querySelector("#description-val"))
-          .innerText,
-        assignee: (<HTMLElement>document.querySelector("#assignee-val")).innerText
+        shortDescription: document.querySelector("#summary-val").innerText,
+        longDescription: document.querySelector("#description-val").innerText,
+        assignee: document.querySelector("#assignee-val").innerText
       };
     });
   `,

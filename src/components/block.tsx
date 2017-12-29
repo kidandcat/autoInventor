@@ -14,6 +14,7 @@ export type BlockState = {
 };
 
 export class Block extends React.Component<BlockProps, BlockState> {
+  me: HTMLElement;
   constructor() {
     super();
     this.state = {
@@ -34,6 +35,9 @@ export class Block extends React.Component<BlockProps, BlockState> {
         onClick={this.toggle}
         className="list-group-item"
         data-params={params}
+        ref={me => {
+          this.me = me;
+        }}
       >
         <div className="name">{action}</div>
         {this.state.expanded && (
@@ -46,10 +50,18 @@ export class Block extends React.Component<BlockProps, BlockState> {
                     event.preventDefault();
                     event.stopPropagation();
                   }}
+                  defaultValue={(() => {
+                    let data = "";
+                    try {
+                      const params = this.me.dataset.params.split(",");
+                      data = params
+                        .filter((f: string) => ~f.indexOf(p))[0]
+                        .split("=")[1];
+                    } catch (e) {}
+                    return data;
+                  })()}
                   onInput={event => {
-                    const params = event.target.parentNode.parentNode.parentNode.dataset.params.split(
-                      ","
-                    );
+                    const params = this.me.dataset.params.split(",");
 
                     const name = params
                       .filter((f: string) => ~f.indexOf(p))[0]
