@@ -3,6 +3,14 @@ export const Blocks = {
     {
       action: "click",
       params: ["selector"]
+    },
+    {
+      action: "wait",
+      params: ["time"]
+    },
+    {
+      action: "goto",
+      params: ["url"]
     }
   ],
   custom: [

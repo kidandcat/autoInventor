@@ -2,8 +2,9 @@ import * as puppeteer from "puppeteer";
 import * as pg from "progress";
 import { Work } from "../blocks/work";
 import { jira_getTicketData, jira_login } from "../blocks/custom/jira";
+import { wait, click, goto } from "../blocks/units";
 
-const blocks = { jira_getTicketData, jira_login };
+const blocks = { jira_getTicketData, jira_login, wait, click, goto };
 
 export type Task = {
   action: string;

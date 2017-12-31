@@ -28,6 +28,10 @@ export class Block extends React.Component<BlockProps, BlockState> {
     }));
   };
 
+  remove = () => {
+    this.me.parentNode.removeChild(this.me);
+  };
+
   render() {
     const { task: { action, params } } = this.props;
     return (
@@ -39,7 +43,8 @@ export class Block extends React.Component<BlockProps, BlockState> {
           this.me = me;
         }}
       >
-        <div className="name">{action}</div>
+        <Name className="name">{action}</Name>
+        <Remove onClick={this.remove}>X</Remove>
         {this.state.expanded && (
           <ParamsContainer>
             {params.map((p, i) => (
@@ -97,4 +102,19 @@ const Param = styled.div`
 
 const ParamInput = styled.input`
   margin-left: 30px;
+`;
+
+const Name = styled.div`
+  pointer-events: none;
+`;
+
+const Remove = styled.button`
+  float: right;
+  margin-top: -23px;
+  border: 1px solid red;
+  border-radius: 500px;
+  background: none;
+  outline: none;
+  height: 25px;
+  width: 25px;
 `;

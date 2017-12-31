@@ -18,7 +18,9 @@ export class App extends React.Component<{}, State> {
       script: []
     };
   }
+
   componentDidMount() {
+    const self = this;
     Sortable.create(document.getElementById("simpleList1"), {
       sort: false,
       draggable: "div",
@@ -44,12 +46,17 @@ export class App extends React.Component<{}, State> {
             }
           ]
         }));
-        console.log("state", this.state);
       },
       group: {
         name: "blocks",
         put: (to: any, from: any, target: any) => {
-          setTimeout(() => target.parentNode.removeChild(target), 500);
+          const si: any = setInterval(() => {
+            if (!target.classList.contains("sortable-ghost")) {
+              target.parentNode.removeChild(target);
+              clearInterval(si);
+            }
+            console.log("target", target);
+          }, 500);
           return true;
         }
       }
