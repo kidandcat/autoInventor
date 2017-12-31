@@ -61,7 +61,7 @@ export class App extends React.Component<{}, State> {
               clearInterval(si);
             }
             console.log("target", target);
-          }, 500);
+          }, 100);
           return true;
         }
       }
@@ -96,27 +96,37 @@ export class App extends React.Component<{}, State> {
             {this.state.script.map((b, i) => <Block key={i} task={b} />)}
           </RightList>
         </div>
-        <div className="row">
-          <button onClick={runner}>Run</button>
-        </div>
+        <RunButton onClick={runner}>Run</RunButton>
       </div>
     );
   }
 }
 
+const RunButton = styled.button`
+  border: none;
+  border-radius: 50em;
+  outline: none;
+  background: white;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+  padding: 4px 44px 4px 44px;
+`;
+
 const LeftList = styled.div`
-  border: 1px solid red;
   border-radius: 10px;
   padding: 5px;
   margin-top: 30px;
+  background-color: white;
 `;
 
 const RightList = styled.div`
-  border: 1px solid blue;
   border-radius: 10px;
   padding: 5px;
   margin-top: 30px;
   min-height: 100px;
+  background-color: white;
 `;
 
 function runner() {
