@@ -51,8 +51,13 @@ export class App extends React.Component<{}, State> {
         name: "blocks",
         put: (to: any, from: any, target: any) => {
           const si: any = setInterval(() => {
-            if (!target.classList.contains("sortable-ghost")) {
+            if (
+              !target.classList.contains("sortable-ghost") &&
+              target.parentNode.id == "simpleList2"
+            ) {
               target.parentNode.removeChild(target);
+              clearInterval(si);
+            } else if (!target.classList.contains("sortable-ghost")) {
               clearInterval(si);
             }
             console.log("target", target);
