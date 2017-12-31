@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import { Collapse } from "react-collapse";
 import { Task } from "../tools/composer";
 
 export type BlockProps = {
@@ -45,7 +46,7 @@ export class Block extends React.Component<BlockProps, BlockState> {
       >
         <Name className="name">{action}</Name>
         <Remove onClick={this.remove}>X</Remove>
-        {this.state.expanded && (
+        <Collapse isOpened={this.state.expanded}>
           <ParamsContainer>
             {params.map((p, i) => (
               <ParamContainer key={i}>
@@ -81,7 +82,7 @@ export class Block extends React.Component<BlockProps, BlockState> {
               </ParamContainer>
             ))}
           </ParamsContainer>
-        )}
+        </Collapse>
       </div>
     );
   }
