@@ -5,6 +5,7 @@ import { Blocks } from "../blocks";
 import { Block } from "./block";
 import { run } from "../tools/composer";
 const Sortable = require("sortablejs");
+const fs = require("fs");
 
 export type State = {
   script: Task[];
@@ -96,6 +97,7 @@ export class App extends React.Component<{}, State> {
           </RightList>
         </div>
         <RunButton onClick={runner}>Run</RunButton>
+        <SaveButton onClick={save}>Save</SaveButton>
       </div>
     );
   }
@@ -111,10 +113,28 @@ const RunButton = styled.button`
   outline: none;
   background: white;
   position: fixed;
+  padding: 15px;
   left: 50%;
   transform: translateX(-50%);
   bottom: 30px;
-  padding: 4px 44px 4px 44px;
+  padding: 8px 60px 8px 60px;
+  background-color: blue;
+  opacity: 0.5;
+  color: white;
+`;
+
+const SaveButton = styled.button`
+  border: none;
+  border-radius: 50em;
+  outline: none;
+  background: white;
+  position: fixed;
+  left: 15px;
+  bottom: 10px;
+  padding: 4px 34px 4px 34px;
+  background-color: green;
+  opacity: 0.5;
+  color: white;
 `;
 
 const LeftList = styled.div`
@@ -157,4 +177,16 @@ function getObj(array) {
     res[t.split("=")[0]] = t.split("=")[1];
   });
   return res;
+}
+
+function save() {
+  dialog.showSaveDialog((fileName: string) => {
+    if (fileName === undefined) return;
+
+    fs.writeFile(
+      fileName,
+      JSON.stringify(getActions()),
+      (err: Error) => err && alert(err)
+    );
+  });
 }

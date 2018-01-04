@@ -28,6 +28,8 @@ let render = () => {
   ReactDOM.render(<AppContainer><App /></AppContainer>, document.getElementById('App'));
 }
 
+const dialog = require('electron').remote.dialog;
+
 render();
 if (module.hot) { module.hot.accept(render); }
 </script>
