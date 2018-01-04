@@ -51,7 +51,7 @@ export class App extends React.Component<{}, State> {
   getObj = (array: any) => {
     const res = {};
     const tuplas = array.split(",");
-    tuplas.forEach(t => {
+    tuplas.forEach((t: any) => {
       res[t.split("=")[0]] = t.split("=")[1];
     });
     return res;
@@ -159,7 +159,7 @@ export class App extends React.Component<{}, State> {
               </LeftBlock>
             ))}
           </LeftList>
-          <RightList id="simpleList2" className={`col-sm-offset-2 col-sm-6`}>
+          <RightList id="simpleList2" className={`col-sm-offset-1 col-sm-7`}>
             {this.state.script.map((b, i) => <Block key={i} task={b} />)}
           </RightList>
         </div>
