@@ -30,7 +30,6 @@ export class Block extends React.Component<BlockProps, BlockState> {
   };
 
   remove = () => {
-    console.log("parent", this.me);
     this.me.parentNode.removeChild(this.me);
   };
 

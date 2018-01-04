@@ -60,7 +60,6 @@ export class App extends React.Component<{}, State> {
             } else if (!target.classList.contains("sortable-ghost")) {
               clearInterval(si);
             }
-            console.log("target", target);
           }, 100);
           return true;
         }
@@ -148,17 +147,14 @@ function getActions() {
 
 function runner() {
   const actions = getActions();
-  console.log("actions", actions);
   run("Test", actions);
 }
 
 function getObj(array) {
-  console.log("array", array);
   const res = {};
   const tuplas = array.split(",");
   tuplas.forEach(t => {
     res[t.split("=")[0]] = t.split("=")[1];
   });
-  console.log("split", res);
   return res;
 }
