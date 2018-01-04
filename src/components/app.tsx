@@ -74,22 +74,22 @@ export class App extends React.Component<{}, State> {
         <div className="row">
           <LeftList id="simpleList1" className={`col-sm-4`}>
             {Blocks.units.map(b => (
-              <div
+              <LeftBlock
                 className="list-group-item"
                 key={b.action}
                 data-params={b.params}
               >
                 {b.action}
-              </div>
+              </LeftBlock>
             ))}
             {Blocks.custom.map(b => (
-              <div
+              <LeftBlock
                 className="list-group-item"
                 key={b.action}
                 data-params={b.params}
               >
                 {b.action}
-              </div>
+              </LeftBlock>
             ))}
           </LeftList>
           <RightList id="simpleList2" className={`col-sm-offset-2 col-sm-6`}>
@@ -101,6 +101,10 @@ export class App extends React.Component<{}, State> {
     );
   }
 }
+
+const LeftBlock = styled.div`
+  text-align: center;
+`;
 
 const RunButton = styled.button`
   border: none;
@@ -129,7 +133,7 @@ const RightList = styled.div`
   background-color: white;
 `;
 
-function runner() {
+function getActions() {
   const list = document.querySelectorAll("#simpleList2 .list-group-item");
   const actions = [];
   for (var i = 0; i < list.length; i++) {
@@ -139,15 +143,22 @@ function runner() {
       params: getObj(list[i].dataset.params)
     });
   }
+  return actions;
+}
 
+function runner() {
+  const actions = getActions();
+  console.log("actions", actions);
   run("Test", actions);
 }
 
 function getObj(array) {
+  console.log("array", array);
   const res = {};
   const tuplas = array.split(",");
   tuplas.forEach(t => {
     res[t.split("=")[0]] = t.split("=")[1];
   });
+  console.log("split", res);
   return res;
 }

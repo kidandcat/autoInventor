@@ -68,13 +68,12 @@ export class Block extends React.Component<BlockProps, BlockState> {
                   })()}
                   onInput={event => {
                     const params = this.me.dataset.params.split(",");
-
                     const name = params
                       .filter((f: string) => ~f.indexOf(p))[0]
                       .split("=")[0];
                     params.splice(params.indexOf(p), 1);
                     params.push(name + "=" + event.target.value);
-                    event.target.parentNode.parentNode.parentNode.dataset.params = params.join(
+                    event.target.parentNode.parentNode.parentNode.parentNode.parentNode.dataset.params = params.join(
                       ","
                     );
                   }}
@@ -90,23 +89,29 @@ export class Block extends React.Component<BlockProps, BlockState> {
 
 const ParamsContainer = styled.div`
   height: auto;
+  margin-top: 20px;
 `;
 
 const ParamContainer = styled.div`
   color: grey;
+  display: flex;
 `;
 
 const Param = styled.div`
   display: inline-block;
   margin: 10px;
+  flex: 1;
 `;
 
 const ParamInput = styled.input`
-  margin-left: 30px;
+  height: 30px;
+  flex: 5;
+  margin-top: 5px;
 `;
 
 const Name = styled.div`
   pointer-events: none;
+  text-align: center;
 `;
 
 const Remove = styled.button`
