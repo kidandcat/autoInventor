@@ -30,17 +30,18 @@ export class Block extends React.Component<BlockProps, BlockState> {
   };
 
   remove = () => {
+    console.log("parent", this.me);
     this.me.parentNode.removeChild(this.me);
   };
 
   render() {
     const { task: { action, params } } = this.props;
     return (
-      <div
+      <BlockContaner
         onClick={this.toggle}
         className="list-group-item"
         data-params={params}
-        ref={me => {
+        innerRef={me => {
           this.me = me;
         }}
       >
@@ -82,10 +83,14 @@ export class Block extends React.Component<BlockProps, BlockState> {
             ))}
           </ParamsContainer>
         </Collapse>
-      </div>
+      </BlockContaner>
     );
   }
 }
+
+const BlockContaner = styled.div`
+  border-color: skyblue;
+`;
 
 const ParamsContainer = styled.div`
   height: auto;
@@ -112,6 +117,7 @@ const ParamInput = styled.input`
 const Name = styled.div`
   pointer-events: none;
   text-align: center;
+  font-weight: bold;
 `;
 
 const Remove = styled.button`
