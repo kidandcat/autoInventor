@@ -20,6 +20,73 @@ export class App extends React.Component<{}, State> {
     };
   }
 
+  setActions = (actions: any) => {
+    this.state.script = actions.map((a: any) => ({
+      action: a.action,
+      params: Object.keys(a.params),
+      data: a.params
+    }));
+    console.log("setting actions", actions);
+    this.forceUpdate();
+  };
+
+  getActions = () => {
+    const list = document.querySelectorAll("#simpleList2 .list-group-item");
+    const actions = [];
+    for (var i = 0; i < list.length; i++) {
+      const el = list[i];
+      actions.push({
+        action: list[i].querySelector(".name").innerHTML,
+        params: this.getObj(list[i].dataset.params)
+      });
+    }
+    return actions;
+  };
+
+  runner = () => {
+    const actions = this.getActions();
+    run("Test", actions);
+  };
+
+  getObj = (array: any) => {
+    const res = {};
+    const tuplas = array.split(",");
+    tuplas.forEach(t => {
+      res[t.split("=")[0]] = t.split("=")[1];
+    });
+    return res;
+  };
+
+  save = () => {
+    console.log("the actions", this.state.script);
+    dialog.showSaveDialog((fileName: string) => {
+      if (fileName === undefined) return;
+
+      fs.writeFile(
+        fileName,
+        JSON.stringify(this.getActions()),
+        (err: Error) => err && alert(err)
+      );
+    });
+  };
+
+  load = () => {
+    dialog.showOpenDialog((fileName: string) => {
+      if (fileName === undefined) return;
+
+      fs.readFile(fileName[0], "utf8", (err: Error, data: string) => {
+        let parsedData;
+        try {
+          parsedData = JSON.parse(data);
+        } catch (e) {
+          alert("Cannot read data from file (BAD FORMAT)");
+        }
+        if (err) alert(err.message);
+        else this.setActions(parsedData);
+      });
+    });
+  };
+
   componentDidMount() {
     const self = this;
     Sortable.create(document.getElementById("simpleList1"), {
@@ -96,8 +163,9 @@ export class App extends React.Component<{}, State> {
             {this.state.script.map((b, i) => <Block key={i} task={b} />)}
           </RightList>
         </div>
-        <RunButton onClick={runner}>Run</RunButton>
-        <SaveButton onClick={save}>Save</SaveButton>
+        <RunButton onClick={this.runner}>Run</RunButton>
+        <SaveButton onClick={this.save}>Save</SaveButton>
+        <LoadButton onClick={this.load}>Load</LoadButton>
       </div>
     );
   }
@@ -137,6 +205,20 @@ const SaveButton = styled.button`
   color: white;
 `;
 
+const LoadButton = styled.button`
+  border: none;
+  border-radius: 50em;
+  outline: none;
+  background: white;
+  position: fixed;
+  left: 125px;
+  bottom: 10px;
+  padding: 4px 34px 4px 34px;
+  background-color: grey;
+  opacity: 0.5;
+  color: white;
+`;
+
 const LeftList = styled.div`
   border-radius: 10px;
   padding: 5px;
@@ -151,42 +233,3 @@ const RightList = styled.div`
   min-height: 100px;
   background-color: white;
 `;
-
-function getActions() {
-  const list = document.querySelectorAll("#simpleList2 .list-group-item");
-  const actions = [];
-  for (var i = 0; i < list.length; i++) {
-    const el = list[i];
-    actions.push({
-      action: list[i].querySelector(".name").innerHTML,
-      params: getObj(list[i].dataset.params)
-    });
-  }
-  return actions;
-}
-
-function runner() {
-  const actions = getActions();
-  run("Test", actions);
-}
-
-function getObj(array) {
-  const res = {};
-  const tuplas = array.split(",");
-  tuplas.forEach(t => {
-    res[t.split("=")[0]] = t.split("=")[1];
-  });
-  return res;
-}
-
-function save() {
-  dialog.showSaveDialog((fileName: string) => {
-    if (fileName === undefined) return;
-
-    fs.writeFile(
-      fileName,
-      JSON.stringify(getActions()),
-      (err: Error) => err && alert(err)
-    );
-  });
-}

@@ -7,6 +7,7 @@ export type BlockProps = {
   task: {
     action: string;
     params: string[];
+    data: object;
   };
 };
 
@@ -34,7 +35,7 @@ export class Block extends React.Component<BlockProps, BlockState> {
   };
 
   render() {
-    const { task: { action, params } } = this.props;
+    const { task: { action, params, data = null } } = this.props;
     return (
       <BlockContaner
         onClick={this.toggle}
@@ -57,14 +58,19 @@ export class Block extends React.Component<BlockProps, BlockState> {
                     event.stopPropagation();
                   }}
                   defaultValue={(() => {
-                    let data = "";
+                    let dat = "";
                     try {
                       const params = this.me.dataset.params.split(",");
-                      data = params
+                      dat = params
                         .filter((f: string) => ~f.indexOf(p))[0]
                         .split("=")[1];
                     } catch (e) {}
-                    return data;
+                    try {
+                      if (data && data[p]) {
+                        dat = data[p];
+                      }
+                    } catch (e) {}
+                    return dat;
                   })()}
                   onInput={event => {
                     const params = this.me.dataset.params.split(",");
@@ -122,7 +128,7 @@ const Name = styled.div`
 const Remove = styled.button`
   float: right;
   margin-top: -23px;
-  border: 1px solid red;
+  border: 1px solid palevioletred;
   border-radius: 500px;
   background: none;
   outline: none;
