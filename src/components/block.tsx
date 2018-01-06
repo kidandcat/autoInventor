@@ -31,7 +31,9 @@ export class Block extends React.Component<BlockProps, BlockState> {
   };
 
   remove = () => {
-    this.me.parentNode.removeChild(this.me);
+    try {
+      this.me.parentNode.removeChild(this.me);
+    } catch (e) {}
   };
 
   render() {
@@ -60,16 +62,24 @@ export class Block extends React.Component<BlockProps, BlockState> {
                   defaultValue={(() => {
                     let dat = "";
                     try {
-                      const params = this.me.dataset.params.split(",");
-                      dat = params
-                        .filter((f: string) => ~f.indexOf(p))[0]
-                        .split("=")[1];
-                    } catch (e) {}
-                    try {
                       if (data && data[p]) {
                         dat = data[p];
                       }
-                    } catch (e) {}
+                    } catch (e) {
+                      console.log("error getting params");
+                    }
+                    const dataa = data[p];
+                    setTimeout(() => {
+                      try {
+                        const params = this.me.dataset.params.split(",");
+                        delete params[params.indexOf(p)];
+                        params.push(`${p}=${dataa}`);
+                        this.me.dataset.params = cleanArray(params);
+                        console.log("P", params);
+                      } catch (e) {
+                        console.log("error parsing params");
+                      }
+                    }, 1000);
                     return dat;
                   })()}
                   onInput={event => {
@@ -79,9 +89,11 @@ export class Block extends React.Component<BlockProps, BlockState> {
                       .split("=")[0];
                     params.splice(params.indexOf(p), 1);
                     params.push(name + "=" + event.target.value);
-                    event.target.parentNode.parentNode.parentNode.parentNode.parentNode.dataset.params = params.join(
-                      ","
-                    );
+                    try {
+                      event.target.parentNode.parentNode.parentNode.parentNode.parentNode.dataset.params = params.join(
+                        ","
+                      );
+                    } catch (e) {}
                   }}
                 />
               </ParamContainer>
@@ -135,3 +147,13 @@ const Remove = styled.button`
   height: 25px;
   width: 25px;
 `;
+
+function cleanArray(actual: any) {
+  var newArray = new Array();
+  for (var i = 0; i < actual.length; i++) {
+    if (actual[i]) {
+      newArray.push(actual[i]);
+    }
+  }
+  return newArray;
+}
